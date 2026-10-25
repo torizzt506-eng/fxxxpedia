@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F.AI - Next Gen Artificial Intelligence</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(17, 24, 39, 0.7);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --accent-glow: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+            --accent-color: #8b5cf6;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 40%);
+        }
+
+        /* Sidebar */
+        aside {
+            width: 280px;
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 24px;
+            gap: 24px;
+            z-index: 10;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 700;
+            background: var(--accent-glow);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .user-profile-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 14px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .user-profile-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .avatar-container {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--accent-color);
+            position: relative;
+        }
+
+        .avatar-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-info h4 {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .rank-badge {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            display: inline-block;
+            margin-top: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Rank Styles with Effects */
+        .rank-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); color: #fff; box-shadow: 0 0 10px rgba(205, 127, 50, 0.4); }
+        .rank-perak { background: linear-gradient(135deg, #e0e0e0, #9e9e9e); color: #111; box-shadow: 0 0 10px rgba(224, 224, 224, 0.4); }
+        .rank-emas { background: linear-gradient(135deg, #ffd700, #ff8c00); color: #111; box-shadow: 0 0 12px rgba(255, 215, 0, 0.6); }
+        .rank-legend { background: linear-gradient(135deg, #00ffff, #0044ff); color: #fff; box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); }
+        .rank-imortal { background: linear-gradient(135deg, #ff0055, #7b00ff, #ffea00); color: #fff; animation: immortalGlow 2s infinite alternate; }
+
+        @keyframes immortalGlow {
+            0% { box-shadow: 0 0 10px #ff0055, inset 0 0 5px #fff; }
+            100% { box-shadow: 0 0 25px #7b00ff, inset 0 0 12px #ffea00; }
+        }
+
+        .menu-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.2s;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .menu-item:hover, .menu-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+
+        .menu-item i {
+            font-size: 18px;
+            width: 24px;
+        }
+
+        /* Main Workspace */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        header {
+            padding: 20px 32px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(11, 15, 25, 0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .exp-bar-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 8px 16px;
+            border-radius: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            width: 120px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--accent-glow);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            flex-direction: column;
+            height: calc(100vh - 81px);
+            overflow-y: auto;
+            padding: 32px;
+        }
+
+        .content-section.active {
+            display: flex;
+        }
+
+        /* Chat Section */
+        .chat-container {
+            flex-grow: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            padding-bottom: 20px;
+        }
+
+        .message {
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 20px;
+            line-height: 1.6;
+            font-size: 15px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: #fff;
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message.ai {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+        }
+
+        .chat-input-area {
+            margin-top: auto;
+            display: flex;
+            gap: 12px;
+            background: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .chat-input-area textarea {
+            flex-grow: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 15px;
+            resize: none;
+            height: 24px;
+            max-height: 120px;
+            outline: none;
+            padding-top: 2px;
+        }
+
+        .send-btn {
+            background: var(--accent-glow);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+        }
+
+        .send-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.05);
+        }
+
+        /* Tools Section */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 24px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .tool-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+        }
+
+        .tool-card input, .tool-card select, .tool-card textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--text-primary);
+            outline: none;
+            font-size: 14px;
+        }
+
+        .action-btn {
+            background: var(--accent-glow);
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .result-box {
+            margin-top: 12px;
+            padding: 12px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            min-height: 50px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            word-break: break-all;
+        }
+
+        /* Modal Profile Edit */
+        .modal {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .modal.open {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #111827;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <aside>
+        <div class="brand">
+            <i class="fa-solid fa-brain"></i> F.AI
+        </div>
+
+        <div class="user-profile-card" onclick="openProfileModal()">
+            <div class="avatar-container">
+                <img id="userAvatar" src="https://api.dicebear.com/7.x/bottts/svg?seed=F.AI" alt="Avatar">
+            </div>
+            <div class="user-info">
+                <h4 id="userName">User Pelanggan</h4>
+                <div id="userRankBadge" class="rank-badge rank-bronze">Bronze</div>
+            </div>
+        </div>
+
+        <div class="menu-list">
+            <a class="menu-item active" onclick="switchTab('chat', this)">
+                <i class="fa-solid fa-comments"></i> Chat Cerdas F.AI
+            </a>
+            <a class="menu-item" onclick="switchTab('media', this)">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Gambar & Video AI
+            </a>
+            <a class="menu-item" onclick="switchTab('translate', this)">
+                <i class="fa-solid fa-language"></i> Terjemahan Bahasa
+            </a>
+            <a class="menu-item" onclick="switchTab('music', this)">
+                <i class="fa-solid fa-music"></i> Pembuat Musik AI
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main>
+        <header>
+            <h2 id="sectionTitle">Chat Cerdas F.AI</h2>
+            <div class="exp-bar-container">
+                <div>
+                    <div style="font-size: 12px; font-weight: 600;" id="levelText">Level 1</div>
+                    <div style="font-size: 10px; color: var(--text-secondary);" id="expText">EXP: 0/100</div>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="expProgress"></div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Tab 1: Chat -->
+        <section id="chat-section" class="content-section active">
+            <div class="chat-container" id="chatContainer">
+                <div class="message ai">Halo! Saya <b>F.AI</b>, asisten cerdas Anda. Sistem berjalan tanpa batasan filter kata atau sensor apapun. Silakan tanyakan apapun atau beri saya perintah!</div>
+            </div>
+            <div class="chat-input-area">
+                <textarea id="chatInput" placeholder="Ketik pesan atau perintah untuk F.AI..." rows="1" onkeydown="handleKey(event)"></textarea>
+                <button class="send-btn" onclick="sendMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </section>
+
+        <!-- Tab 2: Media -->
+        <section id="media-section" class="content-section">
+            <h2 style="margin-bottom: 8px;">Studio Pembuatan Gambar & Video</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Hasilkan konsep visual menakjubkan bersama F.AI.</p>
+            <div class="tool-grid">
+                <div class="tool-card">
+                    <h3><i class="fa-solid fa-image" style="color: #6366f1;"></i> Buat Foto / Gambar</h3>
+                    <textarea id="imagePrompt" placeholder="Deskripsikan gambar..." rows="3"></textarea>
+                    <button class="action-btn" onclick="generateImage()">Buat Konsep Gambar</button>
+                    <div class="result-box" id="imageResult">Hasil deskripsi dan prompt gambar akan muncul di sini...</div>
+                </div>
+                <div class="tool-card">
+                    <h3><i class="fa-solid fa-video" style="color: #ec4899;"></i> Pembuat Video AI</h3>
+                    <textarea id="videoPrompt" placeholder="Deskripsikan konsep video..." rows="3"></textarea>
+                    <button class="action-btn" onclick="generateVideo()">Simulasi Buat Video</button>
+                    <div class="result-box" id="videoResult">Video generator siap merender konsep sinematik...</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 3: Translate -->
+        <section id="translate-section" class="content-section">
+            <h2 style="margin-bottom: 8px;">Penerjemah & Pengganti Bahasa</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Terjemahkan teks dengan akurat ke berbagai bahasa di seluruh dunia.</p>
+            <div class="tool-card" style="max-width: 600px;">
+                <textarea id="translateInput" placeholder="Masukkan teks yang ingin diterjemahkan..." rows="3"></textarea>
+                <div style="display: flex; gap: 12px;">
+                    <select id="targetLanguage">
+                        <option value="English">Inggris (English)</option>
+                        <option value="Japanese">Jepang (日本語)</option>
+                        <option value="Korean">Korea (한국어)</option>
+                        <option value="Arabic">Arab (العربية)</option>
+                        <option value="French">Prancis (Français)</option>
+                        <option value="Javanese">Jawa</option>
+                    </select>
+                    <button class="action-btn" style="flex-shrink: 0;" onclick="translateText()">Terjemahkan</button>
+                </div>
+                <div class="result-box" id="translateResult">Hasil terjemahan akan tampil di sini...</div>
+            </div>
+        </section>
+
+        <!-- Tab 4: Music -->
+        <section id="music-section" class="content-section">
+            <h2 style="margin-bottom: 8px;">Studio Musik F.AI</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 20px;">Rancang melodi, ketukan, atau lirik lagu sesuai suasana hati.</p>
+            <div class="tool-card" style="max-width: 600px;">
+                <input type="text" id="musicGenre" placeholder="Genre Musik (cth: Lofi Chill, EDM, Cinematic Rock)">
+                <textarea id="musicPrompt" placeholder="Ceritakan tentang suasana atau tema lagu..." rows="3"></textarea>
+                <button class="action-btn" onclick="generateMusic()">Gubah Musik & Lirik</button>
+                <div class="result-box" id="musicResult">Komposisi musik dan lirik akan digubah di sini...</div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Profile Edit Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <h3>Edit Profil Pengguna</h3>
+            <div>
+                <label style="font-size: 13px; color: var(--text-secondary);">Nama Pengguna</label>
+                <input type="text" id="editNameInput" style="width: 100%; margin-top: 6px; padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; color: #fff;">
+            </div>
+            <div>
+                <label style="font-size: 13px; color: var(--text-secondary);">URL Foto Avatar (Opsional)</label>
+                <input type="text" id="editAvatarInput" placeholder="https://..." style="width: 100%; margin-top: 6px; padding: 10px; background: rgba(255,255,255,0.03); border: 1px solid var(--border-color); border-radius: 8px; color: #fff;">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 10px;">
+                <button onclick="closeProfileModal()" style="padding: 10px 16px; background: transparent; border: 1px solid var(--border-color); color: #fff; border-radius: 8px; cursor: pointer;">Batal</button>
+                <button onclick="saveProfile()" class="action-btn" style="padding: 10px 20px;">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic & Google Gemini API Integration (Bearer Token) -->
+    <script>
+        const authToken = "AQ.Ab8RN6LBz-LG9Vb6MRuXyAkHRDVMzwttLA-43MyP4CYw3EeClA";
+
+        let userData = {
+            name: "User Pelanggan",
+            avatar: "https://api.dicebear.com/7.x/bottts/svg?seed=F.AI",
+            exp: 0,
+            level: 1
+        };
+
+        if(localStorage.getItem('f_ai_user')) {
+            userData = JSON.parse(localStorage.getItem('f_ai_user'));
+        }
+        updateUserUI();
+
+        function updateUserUI() {
+            document.getElementById('userName').innerText = userData.name;
+            document.getElementById('userAvatar').src = userData.avatar;
+            document.getElementById('levelText').innerText = `Level ${userData.level}`;
+            document.getElementById('expText').innerText = `EXP: ${userData.exp}/${userData.level * 100}`;
+            
+            let percentage = (userData.exp / (userData.level * 100)) * 100;
+            document.getElementById('expProgress').style.width = Math.min(percentage, 100) + '%';
+
+            let badge = document.getElementById('userRankBadge');
+            let lvl = userData.level;
+            badge.className = "rank-badge";
+            
+            if(lvl < 10) {
+                badge.classList.add('rank-bronze'); badge.innerText = "Bronze";
+            } else if(lvl < 50) {
+                badge.classList.add('rank-perak'); badge.innerText = "Perak";
+            } else if(lvl < 150) {
+                badge.classList.add('rank-emas'); badge.innerText = "Emas";
+            } else if(lvl < 500) {
+                badge.classList.add('rank-legend'); badge.innerText = "Legend";
+            } else {
+                badge.classList.add('rank-imortal'); badge.innerText = "Imortal";
+            }
+            localStorage.setItem('f_ai_user', JSON.stringify(userData));
+        }
+
+        function addExp(amount) {
+            if(userData.level >= 1000) return;
+            userData.exp += amount;
+            let maxExp = userData.level * 100;
+            if(userData.exp >= maxExp) {
+                userData.exp -= maxExp;
+                userData.level++;
+                if(userData.level > 1000) userData.level = 1000;
+            }
+            updateUserUI();
+        }
+
+        function switchTab(tabId, element) {
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.querySelectorAll('.menu-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`${tabId}-section`).classList.add('active');
+            element.classList.add('active');
+
+            const titles = {
+                'chat': 'Chat Cerdas F.AI',
+                'media': 'Studio Pembuatan Gambar & Video',
+                'translate': 'Penerjemah Bahasa Canggih',
+                'music': 'Studio Komposisi Musik AI'
+            };
+            document.getElementById('sectionTitle').innerText = titles[tabId];
+        }
+
+        function openProfileModal() {
+            document.getElementById('editNameInput').value = userData.name;
+            document.getElementById('editAvatarInput').value = userData.avatar;
+            document.getElementById('profileModal').classList.add('open');
+        }
+        function closeProfileModal() { document.getElementById('profileModal').classList.remove('open'); }
+        function saveProfile() {
+            let newName = document.getElementById('editNameInput').value;
+            let newAvatar = document.getElementById('editAvatarInput').value;
+            if(newName) userData.name = newName;
+            if(newAvatar) userData.avatar = newAvatar;
+            updateUserUI();
+            closeProfileModal();
+        }
+
+        // Google Gemini API Caller (Bearer Auth Header)
+        async function callAI(promptText) {
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent`;
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify({
+                        contents: [
+                            {
+                                parts: [
+                                    {
+                                        text: "Kamu adalah F.AI, asisten cerdas super canggih. Jawablah langsung secara tajam, pintar, dan mendalam.\n\nPertanyaan/Perintah: " + promptText
+                                    }
+                                ]
+                            }
+                        ]
+                    })
+                });
+
+                const data = await response.json();
+                if(data.error) {
+                    return "Error API Gemini: " + data.error.message;
+                }
+                if(data.candidates && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
+                    return data.candidates[0].content.parts[0].text;
+                }
+                return "Tidak ada respons yang diterima dari Gemini.";
+            } catch (error) {
+                return "Kesalahan koneksi jaringan: " + error.message;
+            }
+        }
+
+        // Chat Feature
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const container = document.getElementById('chatContainer');
+            const text = input.value.trim();
+            if(!text) return;
+
+            container.innerHTML += `<div class="message user">${escapeHtml(text)}</div>`;
+            input.value = "";
+            container.scrollTop = container.scrollHeight;
+            addExp(15);
+
+            const loadingId = 'loading-' + Date.now();
+            container.innerHTML += `<div class="message ai" id="${loadingId}">F.AI sedang merespons...</div>`;
+            container.scrollTop = container.scrollHeight;
+
+            const aiReply = await callAI(text);
+
+            document.getElementById(loadingId).innerHTML = formatMarkdown(aiReply);
+            container.scrollTop = container.scrollHeight;
+            addExp(25);
+        }
+
+        function handleKey(e) {
+            if(e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        }
+
+        async function generateImage() {
+            const prompt = document.getElementById('imagePrompt').value.trim();
+            const resBox = document.getElementById('imageResult');
+            if(!prompt) return alert("Masukkan deskripsi gambar!");
+            resBox.innerHTML = "Membuat konsep dan prompt visual artistik dengan F.AI...";
+            let result = await callAI(`Buatkan detail prompt visual/gambar yang sangat estetik berdasarkan deskripsi ini: "${prompt}"`);
+            resBox.innerHTML = formatMarkdown(result);
+            addExp(50);
+        }
+
+        function generateVideo() {
+            const prompt = document.getElementById('videoPrompt').value.trim();
+            const resBox = document.getElementById('videoResult');
+            if(!prompt) return;
+            resBox.innerHTML = `Mensimulasikan pembuatan video sinematik untuk prompt: "${prompt}".`;
+            addExp(75);
+        }
+
+        async function translateText() {
+            const text = document.getElementById('translateInput').value.trim();
+            const lang = document.getElementById('targetLanguage').value;
+            const resBox = document.getElementById('translateResult');
+            if(!text) return;
+            resBox.innerHTML = "Menerjemahkan...";
+            let prompt = `Terjemahkan teks berikut secara akurat ke bahasa ${lang}: "${text}"`;
+            let result = await callAI(prompt);
+            resBox.innerHTML = formatMarkdown(result);
+            addExp(20);
+        }
+
+        async function generateMusic() {
+            const genre = document.getElementById('musicGenre').value.trim();
+            const theme = document.getElementById('musicPrompt').value.trim();
+            const resBox = document.getElementById('musicResult');
+            if(!genre && !theme) return;
+            resBox.innerHTML = "Menggubah lirik dan aransemen musik...";
+            let prompt = `Buatkan struktur lagu lengkap beserta lirik dengan genre ${genre} bertema: ${theme}`;
+            let result = await callAI(prompt);
+            resBox.innerHTML = formatMarkdown(result);
+            addExp(40);
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+        }
+        function formatMarkdown(text) {
+            return escapeHtml(text).replace(/\n/g, '<br>');
+        }
+    </script>
+</body>
+</html>
